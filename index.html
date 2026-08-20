@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <!-- Viewport locked to prevent zoom/scroll issues on mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Engagement Invitation</title>
+    
+    <!-- Open Graph Meta Tags for Link Preview Thumbnail -->
+    <meta property="og:title" content="पुजा आणि आदित्य - साखरपुडा समारंभ">
+    <meta property="og:description" content="आमच्या आयुष्यातील या अत्यंत महत्त्वाच्या आणि आनंदाच्या क्षणी आपली उपस्थिती व आशीर्वाद प्रार्थनीय आहेत.">
+    <meta property="og:image" content="https://cardap-xi.vercel.app/thumbnail.jpg">
+    <meta property="og:url" content="https://cardap-xi.vercel.app/">
+    <meta property="og:type" content="website">
+    
+    <!-- Google Fonts for Marathi (Devanagari) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@300;400;500;600&family=Tiro+Devanagari+Marathi:ital@0;1&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           GLOBAL SETTINGS
+           ========================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body, html {
+            height: 100dvh; 
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #faf4e8; 
+            font-family: 'Mukta', sans-serif;
+            overflow: hidden;
+        }
+
+        /* =========================================
+           UNIFIED CARD BOUNDARY
+           ========================================= */
+        .card-boundary {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-width: min(100vw, calc(100dvh * (9 / 16)));
+            max-height: min(100dvh, calc(100vw * (16 / 9)));
+            aspect-ratio: 9 / 16;
+            
+            overflow: hidden; 
+            box-shadow: 0 0 30px rgba(0,0,0,0.15);
+            container-type: inline-size;
+            background-color: #faf4e8;
+        }
+
+        /* =========================================
+           VIDEO BACKGROUND
+           ========================================= */
+        .bg-layer {
+            position: absolute; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%;
+            object-fit: cover; 
+            z-index: 1;
+        }
+
+        .sparkles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+
+        /* =========================================
+           SCENE 1: STARTER SCENE & FLY-AWAY
+           ========================================= */
+        #starter-scene {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+            transition: opacity 1.2s ease;
+        }
+
+        /* Glass Effect Starter Card */
+        .starter-card {
+            background: rgba(255, 255, 255, 0.4); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            padding: clamp(20px, 5vw, 30px) clamp(26px, 7vw, 42px);
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5); 
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            transition: all 1s cubic-bezier(0.25, 1, 0.4, 1);
+        }
+
+        .starter-card.enter {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .starter-card.fly-away {
+            transform: translate(60vw, -80vh) rotate(25deg) scale(0.4);
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.5, -0.3, 0.1, 1);
+        }
+
+        .starter-card h2 {
+            font-family: 'Tiro Devanagari Marathi', serif;
+            font-size: clamp(32px, 9cqi, 46px); /* INCREASED */
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            line-height: 1.3; 
+            margin: 0;
+            background: linear-gradient(120deg, #c21e56 20%, #d4af37 40%, #d4af37 60%, #c21e56 80%);
+            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: shine-text 4s linear infinite; 
+        }
+
+        /* Glitter Burst Particles */
+        .glitter-box {
+            position: absolute;
+            top: 100%; left: 100%;
+            width: 0; height: 0;
+            z-index: 5;
+        }
+
+        .particle {
+            position: absolute;
+            width: clamp(8px, 2vw, 14px); 
+            height: clamp(8px, 2vw, 14px);
+            background: #ffdf73;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #ffe259, 0 0 35px #ffa751, 0 0 50px #d4af37;
+            opacity: 0;
+        }
+
+        .glitter-box.active .particle {
+            animation: burst 1s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+        }
+
+        .particle:nth-child(1) { --tx: 0px; --ty: -180px; }
+        .particle:nth-child(2) { --tx: 127px; --ty: -127px; }
+        .particle:nth-child(3) { --tx: 180px; --ty: 0px; }
+        .particle:nth-child(4) { --tx: 127px; --ty: 127px; }
+        .particle:nth-child(5) { --tx: 0px; --ty: 180px; }
+        .particle:nth-child(6) { --tx: -127px; --ty: 127px; }
+        .particle:nth-child(7) { --tx: -180px; --ty: 0px; }
+        .particle:nth-child(8) { --tx: -127px; --ty: -127px; }
+
+        @keyframes burst {
+            0% { transform: translate(0, 0) scale(0.2); opacity: 1; }
+            50% { opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(1.5); opacity: 0; }
+        }
+
+        /* =========================================
+           SCENE 2: MAIN INVITATION CONTENT
+           ========================================= */
+        .content-wrapper {
+            position: absolute; 
+            z-index: 10; 
+            display: flex; 
+            flex-direction: column;
+            justify-content: space-evenly; 
+            align-items: center; 
+            text-align: center;
+            
+            top: 5%; bottom: 6%; left: 5%; right: 5%;
+            padding: 4cqi 3cqi;
+            color: #4a3b32;
+
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.96) translateY(15px);
+            transition: opacity 1s cubic-bezier(0.25, 1, 0.4, 1), transform 1s cubic-bezier(0.25, 1, 0.4, 1);
+        }
+
+        .content-wrapper.fade-in {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1) translateY(0);
+        }
+
+        /* CASCADING TEXT ENTRANCE ANIMATIONS */
+        .content-wrapper > * {
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.6s cubic-bezier(0.25, 1, 0.4, 1), transform 0.6s cubic-bezier(0.25, 1, 0.4, 1);
+        }
+
+        .content-wrapper.fade-in > * {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .content-wrapper.fade-in > :nth-child(1) { transition-delay: 0.15s; }
+        .content-wrapper.fade-in > :nth-child(2) { transition-delay: 0.20s; }
+        .content-wrapper.fade-in > :nth-child(3) { transition-delay: 0.25s; }
+        .content-wrapper.fade-in > :nth-child(4) { transition-delay: 0.30s; }
+        .content-wrapper.fade-in > :nth-child(5) { transition-delay: 0.35s; }
+        .content-wrapper.fade-in > :nth-child(6) { transition-delay: 0.40s; }
+        .content-wrapper.fade-in > :nth-child(7) { transition-delay: 0.45s; }
+        .content-wrapper.fade-in > :nth-child(8) { transition-delay: 0.50s; }
+        .content-wrapper.fade-in > :nth-child(9) { transition-delay: 0.55s; }
+        .content-wrapper.fade-in > :nth-child(10){ transition-delay: 0.60s; }
+        .content-wrapper.fade-in > :nth-child(11){ transition-delay: 0.65s; }
+
+        /* FLUID TYPOGRAPHY & LEGIBILITY SHADOWS */
+        .intro-text { 
+            font-family: 'Tiro Devanagari Marathi', serif; 
+            font-size: clamp(32px, 9cqi, 46px); /* INCREASED */
+            font-style: italic;
+            color: #c21e56; 
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8); 
+        }
+        
+        .sub-intro { 
+            font-family: 'Mukta', sans-serif;
+            font-size: clamp(14px, 4cqi, 18px); /* INCREASED */
+            font-weight: 500; 
+            letter-spacing: 0.5px; 
+            color: #5a4b42; 
+            text-shadow: 0 1px 4px rgba(255, 255, 255, 0.9);
+        }
+        
+        .divider { 
+            width: 50%; 
+            height: 1.5px; 
+            background-color: #b98d43; 
+            opacity: 0.7;
+        }
+        
+        .ceremony-title { 
+            font-family: 'Tiro Devanagari Marathi', serif;
+            font-size: clamp(28px, 7cqi, 40px); /* INCREASED */
+            font-weight: 400;
+            letter-spacing: 1px;
+            color: #2e5025; 
+            text-shadow: 0 1px 4px rgba(255, 255, 255, 0.9);
+        }
+        
+        .names {
+            font-family: 'Tiro Devanagari Marathi', serif; 
+            font-size: clamp(40px, 12cqi, 65px); /* INCREASED */
+            font-weight: 400;
+            line-height: 1.1; 
+            background: linear-gradient(120deg, #c21e56 20%, #d4af37 40%, #d4af37 60%, #c21e56 80%);
+            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: shine-text 4s linear infinite; 
+            filter: drop-shadow(1px 1px 2px rgba(255,255,255,0.5));
+            padding: 3px 0; 
+        }
+
+        .names .prefix {
+            font-size: 0.45em; /* Scaled relative to the larger name */
+            display: inline-block; 
+            vertical-align: middle; 
+            margin-right: 6px; 
+            letter-spacing: 1px;
+            font-family: 'Mukta', sans-serif;
+            font-weight: 500;
+            color: #8c6d4f;
+            -webkit-text-fill-color: #8c6d4f; 
+            text-shadow: 0 1px 4px rgba(255, 255, 255, 0.9);
+        }
+
+        .rings-image-container {
+            width: clamp(55px, 16cqi, 85px); 
+            height: auto;
+            animation: hover-rings 3s infinite ease-in-out;
+            filter: drop-shadow(0 4px 8px rgba(212, 175, 55, 0.45));
+        }
+
+        .rings-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .message { 
+            font-family: 'Mukta', sans-serif;
+            font-size: clamp(16px, 4.5cqi, 20px); /* INCREASED */
+            line-height: 1.5; 
+            font-weight: 500;
+            padding: 0 4%;
+            color: #5a4b42; 
+            max-width: 95%;
+            text-shadow: 0 1px 4px rgba(255, 255, 255, 0.9);
+        }
+        
+        .date-time { 
+            font-family: 'Mukta', sans-serif;
+            font-size: clamp(20px, 5.5cqi, 28px); /* INCREASED */
+            font-weight: 600; 
+            color: #b98d43; 
+            letter-spacing: 0.5px; 
+            text-shadow: 0 1px 4px rgba(255, 255, 255, 0.9);
+        }
+        
+        .time { 
+            font-family: 'Mukta', sans-serif;
+            font-size: clamp(16px, 4.5cqi, 20px); /* INCREASED */
+            font-weight: 600; 
+            letter-spacing: 0.5px; 
+            color: #2e5025; 
+            text-shadow: 0 1px 4px rgba(255, 255, 255, 0.9);
+        }
+        
+        .venue-btn { 
+            font-family: 'Mukta', sans-serif;
+            display: inline-block; 
+            padding: clamp(12px, 2.5cqi, 16px) clamp(22px, 5.5cqi, 38px);
+            background-color: #c21e56; 
+            border: 1px solid #c21e56; 
+            border-radius: 30px; 
+            color: #ffffff; 
+            text-decoration: none; 
+            font-size: clamp(14px, 4cqi, 18px); /* INCREASED */
+            font-weight: 600; 
+            letter-spacing: 1px; 
+            box-shadow: 0 4px 10px rgba(194, 30, 86, 0.25); 
+            transition: all 0.3s ease; 
+        }
+
+        .venue-btn:active { background-color: #9c1543; transform: scale(0.98); }
+
+        /* Media Query for Shorter Screens */
+        @media (max-height: 700px) {
+            .content-wrapper {
+                top: 2%; bottom: 2%;
+                justify-content: space-evenly;
+                padding: 2cqi 2cqi;
+            }
+            .rings-image-container { width: clamp(45px, 13cqi, 60px); }
+            .names { font-size: clamp(34px, 10cqi, 50px); padding: 1px 0;} /* INCREASED */
+            .message { 
+                font-size: clamp(14px, 3.5cqi, 16px); /* INCREASED */
+                line-height: 1.35; 
+                margin: 0;
+            }
+            .venue-btn { padding: 10px 18px; font-size: 13px; } /* INCREASED */
+        }
+
+        @keyframes shine-text { to { background-position: 200% center; } }
+        
+        @keyframes hover-rings { 
+            0%, 100% { transform: translateY(0); filter: drop-shadow(0 4px 8px rgba(212, 175, 55, 0.45)); } 
+            50% { transform: translateY(-8%); filter: drop-shadow(0 10px 14px rgba(212, 175, 55, 0.65)); } 
+        }
+        
+        /* SLOW, DREAMY GLIDING GOLDEN SPARKLES */
+        @keyframes slow-glide { 
+            0% { transform: translate(0px, -20px) scale(0.4); opacity: 0; } 
+            15% { opacity: 1; }
+            85% { opacity: 1; }
+            100% { transform: translate(var(--glide-x, 25px), calc(100dvh + 20px)) scale(1.3); opacity: 0; } 
+        }
+
+        .sparkle { 
+            position: absolute; 
+            width: clamp(5px, 1.3vw, 10px); height: clamp(5px, 1.3vw, 10px); 
+            background: #ffdf73; border-radius: 50%; 
+            box-shadow: 0 0 12px #ffe259, 0 0 22px #ffa751, 0 0 35px #d4af37; 
+            animation: slow-glide infinite ease-in-out; 
+        }
+        
+        /* 24 High-Density Gliding Sparkles */
+        .sparkle:nth-child(1)  { left: 4%;  --glide-x: 15px;  animation-duration: 7.2s; animation-delay: 0.1s; }
+        .sparkle:nth-child(2)  { left: 12%; --glide-x: -20px; animation-duration: 8.5s; animation-delay: 1.4s; }
+        .sparkle:nth-child(3)  { left: 19%; --glide-x: 25px;  animation-duration: 6.4s; animation-delay: 0.6s; }
+        .sparkle:nth-child(4)  { left: 27%; --glide-x: -15px; animation-duration: 9.0s; animation-delay: 2.0s; }
+        .sparkle:nth-child(5)  { left: 34%; --glide-x: 18px;  animation-duration: 7.8s; animation-delay: 0.3s; }
+        .sparkle:nth-child(6)  { left: 42%; --glide-x: -25px; animation-duration: 8.1s; animation-delay: 1.7s; }
+        .sparkle:nth-child(7)  { left: 50%; --glide-x: 12px;  animation-duration: 6.9s; animation-delay: 0.9s; }
+        .sparkle:nth-child(8)  { left: 57%; --glide-x: -18px; animation-duration: 8.7s; animation-delay: 2.3s; }
+        .sparkle:nth-child(9)  { left: 65%; --glide-x: 22px;  animation-duration: 7.5s; animation-delay: 0.4s; }
+        .sparkle:nth-child(10) { left: 73%; --glide-x: -12px; animation-duration: 8.3s; animation-delay: 1.2s; }
+        .sparkle:nth-child(11) { left: 80%; --glide-x: 20px;  animation-duration: 6.6s; animation-delay: 1.8s; }
+        .sparkle:nth-child(12) { left: 88%; --glide-x: -22px; animation-duration: 8.0s; animation-delay: 0.7s; }
+        .sparkle:nth-child(13) { left: 8%;  --glide-x: 16px;  animation-duration: 8.2s; animation-delay: 2.5s; }
+        .sparkle:nth-child(14) { left: 16%; --glide-x: -24px; animation-duration: 7.1s; animation-delay: 1.1s; }
+        .sparkle:nth-child(15) { left: 23%; --glide-x: 14px;  animation-duration: 8.9s; animation-delay: 0.2s; }
+        .sparkle:nth-child(16) { left: 31%; --glide-x: -16px; animation-duration: 6.5s; animation-delay: 1.6s; }
+        .sparkle:nth-child(17) { left: 38%; --glide-x: 26px;  animation-duration: 8.4s; animation-delay: 0.8s; }
+        .sparkle:nth-child(18) { left: 46%; --glide-x: -19px; animation-duration: 7.6s; animation-delay: 2.2s; }
+        .sparkle:nth-child(19) { left: 54%; --glide-x: 15px;  animation-duration: 8.1s; animation-delay: 0.5s; }
+        .sparkle:nth-child(20) { left: 61%; --glide-x: -25px; animation-duration: 6.8s; animation-delay: 1.9s; }
+        .sparkle:nth-child(21) { left: 69%; --glide-x: 18px;  animation-duration: 8.8s; animation-delay: 1.3s; }
+        .sparkle:nth-child(22) { left: 76%; --glide-x: -14px; animation-duration: 7.3s; animation-delay: 0.0s; }
+        .sparkle:nth-child(23) { left: 84%; --glide-x: 21px;  animation-duration: 8.0s; animation-delay: 2.1s; }
+        .sparkle:nth-child(24) { left: 93%; --glide-x: -17px; animation-duration: 6.7s; animation-delay: 1.0s; }
+    </style>
+</head>
+<body>
+
+    <!-- UNIFIED CARD BOUNDARY -->
+    <div class="card-boundary">
+        
+        <!-- Video Background with Added ID -->
+        <video id="bg-video" class="bg-layer" src="0_Floral_Frame_720x1280.mp4" autoplay loop muted playsinline></video>
+        
+        <!-- 24 Gliding Golden Sparkles -->
+        <div class="sparkles">
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+            <div class="sparkle"></div>
+        </div>
+
+        <!-- SCENE 1: STARTER FLY-AWAY CARD -->
+        <div id="starter-scene">
+            <div class="glitter-box" id="glitter-box">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
+
+            <div class="starter-card" id="starter-card">
+                <h2>सस्नेह निमंत्रण</h2>
+            </div>
+        </div>
+
+        <!-- SCENE 2: MAIN INVITATION CONTENT -->
+        <div class="content-wrapper" id="main-content">
+            <div class="intro-text">शुभारंभ...</div>
+            <div class="sub-intro">एका नव्या आणि सुंदर प्रवासाचा</div>
+            <div class="divider"></div>
+            
+            <div class="ceremony-title">साखरपुडा समारंभ</div>
+            
+            <div class="names">
+                <span class="prefix">चि. सौ. कां.</span>पुजा
+            </div>
+            
+            <div class="rings-image-container">
+                <img src="Ring.png" alt="Engagement Rings">
+            </div>
+            
+            <div class="names">
+                <span class="prefix">चि.</span>आदित्य
+            </div>
+            
+            <div class="message">
+                आमच्या आयुष्यातील या अत्यंत महत्त्वाच्या आणि आनंदाच्या क्षणी आपली उपस्थिती व आशीर्वाद प्रार्थनीय आहेत. कृपया उपस्थित राहून आमचा आनंद द्विगुणित करावा, ही नम्र विनंती.
+            </div>
+            
+            <div class="date-time">२९ ऑगस्ट २०२६</div>
+            <div class="time">सायंकाळी ६:०० वाजेपासून</div>
+            
+            <a href="https://maps.app.goo.gl/9Mea99rw8YFqGq5L7" target="_blank" class="venue-btn">
+                समारंभ स्थळाचा नकाशा
+            </a>
+        </div>
+        
+    </div>
+
+    <!-- AUTO-PLAY JAVASCRIPT -->
+    <script>
+        window.addEventListener('load', () => {
+            const starterCard = document.getElementById('starter-card');
+            const glitterBox = document.getElementById('glitter-box');
+            const starterScene = document.getElementById('starter-scene');
+            const mainContent = document.getElementById('main-content');
+            const bgVideo = document.getElementById('bg-video');
+
+            // Set the video playback speed (0.5 = 50% speed)
+            if (bgVideo) {
+                bgVideo.playbackRate = 0.5;
+            }
+            
+            // 1. Softly animate the starter card in when the page loads
+            setTimeout(() => {
+                starterCard.classList.add('enter');
+            }, 100);
+
+            // 2. Begin the seamless transition sequence
+            setTimeout(() => {
+                
+                // Fly-away and glitter burst
+                starterCard.classList.add('fly-away');
+                glitterBox.classList.add('active');
+
+                // Simultaneously start fading out the frosted overlay...
+                starterScene.style.opacity = '0';
+
+                // ...And instantly trigger the cascading entrance of the main invitation right beneath it!
+                mainContent.classList.add('fade-in');
+
+                // Cleanup the old scene to prevent any hidden interactions
+                setTimeout(() => {
+                    starterScene.style.display = 'none'; 
+                }, 1200); 
+
+            }, 5000); 
+        });
+    </script>
+</body>
+</html>
