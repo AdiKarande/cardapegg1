@@ -2,18 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Viewport locked to prevent zoom/scroll issues on mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Engagement Invitation</title>
     
-    <!-- Open Graph Meta Tags for Link Preview Thumbnail -->
     <meta property="og:title" content="Pooja & Aditya's Engagement Invitation">
     <meta property="og:description" content="We're thrilled to announce our engagement and would love to begin our journey with your gracious presence.">
     <meta property="og:image" content="https://cardapegg1.vercel.app/thumbnail.jpg">
     <meta property="og:url" content="https://cardapegg1.vercel.app/">
     <meta property="og:type" content="website">
     
-    <!-- Google Fonts for English -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -170,12 +167,12 @@
             z-index: 10; 
             display: flex; 
             flex-direction: column;
-            justify-content: space-evenly; 
+            justify-content: space-around; /* Reduced line spacing */
             align-items: center; 
             text-align: center;
             
-            top: 4%; bottom: 4%; left: 5%; right: 5%;
-            padding: 3cqi 2cqi;
+            top: 4%; bottom: 4%; left: 5%; right: 5%; /* 4% top and bottom margin */
+            padding: 1.5cqi 2cqi;
             color: #2b1f18;
 
             opacity: 0;
@@ -259,7 +256,7 @@
             line-height: 1.1; 
             color: #b01548;
             text-shadow: 0 2px 8px rgba(255, 255, 255, 0.95), 0 0 12px rgba(255,255,255,0.7);
-            padding: 2px 0; 
+            padding: 1px 0; 
         }
 
         /* Increased by 5% */
@@ -279,7 +276,7 @@
         .message { 
             font-family: 'Montserrat', sans-serif;
             font-size: clamp(12px, 3.4cqi, 15px); 
-            line-height: 1.4; 
+            line-height: 1.35; 
             font-weight: 600;
             padding: 0 4%;
             color: #2b1f18; 
@@ -291,7 +288,7 @@
             font-family: 'Montserrat', sans-serif;
             font-size: clamp(16px, 4.4cqi, 22px); 
             font-weight: 700; 
-            color: #9a732a; 
+            color: #b01548; /* Changed to maroon */
             letter-spacing: 0.5px; 
             text-shadow: 0 2px 6px rgba(255, 255, 255, 0.95), 0 0 10px rgba(255,255,255,0.6);
         }
@@ -310,7 +307,7 @@
             font-family: 'Montserrat', sans-serif;
             font-size: clamp(11.55px, 3.15cqi, 14.175px);
             font-weight: 500;
-            line-height: 1.35;
+            line-height: 1.3;
             color: #3b2c23;
             max-width: 90%;
             text-shadow: 0 2px 6px rgba(255, 255, 255, 0.95), 0 0 10px rgba(255,255,255,0.6);
@@ -319,7 +316,7 @@
         .venue-btn { 
             font-family: 'Montserrat', sans-serif;
             display: inline-block; 
-            padding: clamp(9px, 1.8cqi, 12px) clamp(18px, 4.5cqi, 30px); 
+            padding: clamp(8px, 1.6cqi, 11px) clamp(18px, 4.5cqi, 30px); 
             background-color: #b01548; 
             border: 1px solid #b01548; 
             border-radius: 30px; 
@@ -338,18 +335,18 @@
         @media (max-height: 700px) {
             .content-wrapper {
                 top: 2%; bottom: 2%;
-                justify-content: space-evenly;
-                padding: 1.5cqi 2cqi;
+                justify-content: space-around;
+                padding: 1cqi 2cqi;
             }
             .rings-image-container { width: clamp(33.6px, 9.45cqi, 47.25px); }
-            .names { font-size: clamp(27.3px, 8.4cqi, 39.9px); padding: 1px 0;} 
+            .names { font-size: clamp(27.3px, 8.4cqi, 39.9px); padding: 0;} 
             .message { 
                 font-size: clamp(11px, 2.8cqi, 13px); 
-                line-height: 1.3; 
+                line-height: 1.25; 
                 margin: 0;
             }
-            .venue-address { font-size: clamp(10.5px, 2.73cqi, 12.6px); line-height: 1.25; }
-            .venue-btn { padding: 8px 14px; font-size: 11px; } 
+            .venue-address { font-size: clamp(10.5px, 2.73cqi, 12.6px); line-height: 1.2; }
+            .venue-btn { padding: 7px 14px; font-size: 11px; } 
         }
 
         @keyframes hover-rings { 
@@ -402,13 +399,10 @@
 </head>
 <body>
 
-    <!-- UNIFIED CARD BOUNDARY -->
     <div class="card-boundary">
         
-        <!-- Video Background -->
         <video id="bg-video" class="bg-layer" src="0_Floral_Frame_720x1280.mp4" autoplay loop muted playsinline></video>
         
-        <!-- 24 Gliding Golden Sparkles -->
         <div class="sparkles">
             <div class="sparkle"></div>
             <div class="sparkle"></div>
@@ -436,7 +430,6 @@
             <div class="sparkle"></div>
         </div>
 
-        <!-- SCENE 1: STARTER FLY-AWAY CARD -->
         <div id="starter-scene">
             <div class="glitter-box" id="glitter-box">
                 <div class="particle"></div>
@@ -454,7 +447,6 @@
             </div>
         </div>
 
-        <!-- SCENE 2: MAIN INVITATION CONTENT -->
         <div class="content-wrapper" id="main-content">
             <div class="intro-text">Join Us</div>
             <div class="sub-intro">On Our Journey of Togetherness</div>
@@ -490,7 +482,6 @@
         
     </div>
 
-    <!-- AUTO-PLAY JAVASCRIPT -->
     <script>
         window.addEventListener('load', () => {
             const starterCard = document.getElementById('starter-card');
